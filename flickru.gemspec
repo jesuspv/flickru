@@ -5,7 +5,7 @@ require "flickru/version"
 Gem::Specification.new do |s|
   s.name        = "flickru"
   s.version     = Flickru::VERSION
-  s.authors     = ["Jesús Pardillo"]
+  s.authors     = ["Jesús Pardillo".force_encoding("UTF-8")]
   s.email       = ["dev@jesuspardillo.com"]
   s.homepage    = "http://rubygems.org/gems/flickru"
   s.summary     = %q{Command-line Flickr upload automator}
