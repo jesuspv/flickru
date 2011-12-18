@@ -1,4 +1,4 @@
-Command-line tool 'flickru' automatises photos/videos uploads to Flickr.
+Command-line tool 'flickru' automatises photo/video uploads to Flickr.
 
 Entering 'flickru <directory>' in your command line, any photos under 'directory' (and subdirs)
 are uploaded to your Flickr account (interactively entered at the first time you start flickru).
