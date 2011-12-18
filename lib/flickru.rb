@@ -17,7 +17,7 @@ module Flickru
 
 def Flickru.usage
   filename = File.basename __FILE__
-  Printer.show "#{filename} -- command-line Flickr upload automator\n"
+  Printer.show "#{filename} -- Flickr upload command-line automator\n"
   Printer.show "usage: #{filename} <photo directory>\n"
   Printer.show "example: #{filename} my_photos\n"
   Printer.show "\n#{IO.read('README')}\n"
