@@ -1,5 +1,5 @@
 module Flickru
   unless defined? VERSION
-    VERSION = "next"
+    VERSION = "0.0.2"
   end
 end
