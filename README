@@ -7,23 +7,24 @@ Photos are identified by case-insensitive extensions: GIF, JPEG, JPG, and PNG.
 Videos are identified by case-insensitive extensions: AVI, MPEG, and MPG.
 
 The following Flickr metadata for photos (as well as videos) is set:
- - date-taken from the file (last) modification time
- - private, visible by friends & family, hidden for public searches
- - safety level to safe
- - permission for friends & family to add comments to the photo and it's notes
- - permission for nobody to add notes and tags to the photo
- - for videos larger than the Flickr's longer than 90s (but shorter than 500MB,
-   Flickr's maximum permisible size), the description will contain an annotation
-   about its large duration.
- - title, geolocation, and accuracy from the owner directory's name.
+ (1) date-taken from the file (last) modification time
+ (2) private, visible by friends & family, hidden for public searches
+ (3) safety level to safe
+ (4) permission for friends & family to add comments to the photo and it's notes
+ (5) permission for nobody to add notes and tags to the photo
+ (6) for videos larger than the Flickr's longer than 90s (but shorter than 500MB,
+     Flickr's maximum permisible size), the description will contain an annotation
+     about its large duration.
+ (7) title, geolocation, and accuracy from the owner directory's name.
+
 Owner directory name format is given by the format 'TITLE[@LOCATION[#PRECISION]]',
 where:
- - TITLE is the desired title for the photos directly stored in the directory
- - LOCATION is the location of the stored photos specified as either:
-   - the Wikipedia page name (whitespaces allowed) of the location (if exists) or
-   - its coordinates LATITUDE,LONGITUDE
- - PRECISION is the Flickr geolocation precision given by one of the following
-   case insentitive literals: street, city, region, country, world.
+ (1) TITLE is the desired title for the photos directly stored in the directory
+ (2) LOCATION is the location of the stored photos specified as either:
+   (a) the Wikipedia page name (whitespaces allowed) of the location (if exists) or
+   (b) its coordinates LATITUDE,LONGITUDE
+ (3) PRECISION is the Flickr geolocation precision given by one of the following
+     case insentitive literals: street, city, region, country, world.
 
 Photos are classified into a photoset (existing or not) entitled with the
 second-level directory name containing the photo. The photoset is arranged by

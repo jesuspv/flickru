@@ -8,7 +8,7 @@ Gem::Specification.new do |s|
   s.authors     = ["Jesús Pardillo"]
   s.email       = ["dev@jesuspardillo.com"]
   s.homepage    = "http://rubygems.org/gems/flickru"
-  s.summary     = %q{Command-line Flickr Upload Automator}
+  s.summary     = %q{Command-line Flickr upload automator}
   s.description = IO.read('README')
   s.files         = `git ls-files -- {bin,lib}/*`.split("\n")
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
