@@ -1,0 +1,1 @@
+sudo gem uninstall -x flickru && rake build && sudo gem install pkg/flickru-0.0.1.gem

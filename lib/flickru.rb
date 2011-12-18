@@ -1,0 +1,112 @@
+# ruby
+require 'etc'
+require 'set'
+# gems
+require 'rubygems'
+require 'bundler/setup'
+# flickru
+require 'flickru/file'
+require 'flickru/flickr'
+require 'flickru/journey'
+require 'flickru/printer'
+
+FlickRaw.api_key       = "aaf7253e0f88f03aa59f9d3074bf2d4b"
+FlickRaw.shared_secret = "138ee268f76cd780"
+
+module Flickru
+
+def Flickru.usage
+  filename = File.basename __FILE__
+  Printer.show "#{filename} -- command-line Flickr upload automator\n"
+  Printer.show "usage: #{filename} <photo directory>\n"
+  Printer.show "example: #{filename} my_photos\n"
+  Printer.show "\n#{IO.read('README')}\n"
+end
+
+def Flickru.die code, message
+  Printer.error "error:#{code}: #{message}"
+  exit 1
+end
+
+def Flickru.config_filename
+  File.join Etc.getpwuid.dir, "." + File.basename(__FILE__, File.extname(__FILE__)) + "rc"
+end
+
+def self.read_config
+  file = File.open config_filename, "r"
+  token, secret = file.readlines.map { |line| line.sub(/\#.*$/, '').strip } # remove line comments
+  file.close
+  Flickr.access token, secret
+rescue
+  raise RuntimeError, "unable to open configuration file #{config_filename}"
+end
+
+def Flickru.write_config token, secret
+    Printer.show "writing configuration file #{config_filename}... "
+  if File.exists? config_filename
+    file = File.new config_filename, "w"
+  else
+    file = File.open config_filename, "w"
+  end
+  file.puts "#{token} \# access token"
+  file.puts "#{secret} \# access secret"
+  file.close
+    Printer.success
+rescue
+  raise RuntimeError, "unable to write configuration file #{config_filename}"
+end
+
+def self.flickru photo_dir
+  begin
+    Flickru.read_config
+  rescue RuntimeError
+    token, secret = Flickr.login
+    write_config token, secret
+  end
+
+  # upload and classify
+  photos       = File.find(photo_dir) {|f| File.image? f or File.video? f }
+  total_size   = photos.reduce(0) {|t,p| t + File.size(p)}
+  Printer.info "#{File.human_readable_size total_size} to upload"
+  journey      = Journey.new total_size
+  photoset_ids = Set.new
+  photos.each do |photo|
+      Printer.info "file '#{File.join File.basename(File.dirname(photo)), File.basename(photo)}' under process"
+    begin
+      photo_id = Flickr.upload_photo photo
+      photoset_ids << Flickr.classify(photo, photo_id)
+    rescue ArgumentError || Errno::ENOENT || Errno::EAGAIN || FlickRaw::FailedResponse
+      Printer.failure "#{photo}: #{$!}"
+    end
+    journey.take File.size(photo)
+    Printer.info "#{File.human_readable_size journey.progress} uploaded, " +
+                 "#{File.human_readable_size journey.distance} remaining. " +
+                 "ETA: #{Printer.human_readable_seconds journey.eta}" if journey.eta > 0
+  end
+
+  photoset_ids.each do |set_id|
+    Flickr.arrangePhotos set_id
+  end
+
+  Printer.ask "Please, review whether: any of your photos need to be rotated,\n" +
+              "  better primary photos for your sets have been uploaded,\n" +
+              "  and better collection mosaics can be randomised."
+rescue
+  die __LINE__, $!
+end
+
+end # module Flickru
+
+if __FILE__ == $0
+  photo_dir = ARGV[0]
+
+  if ARGV.length > 1
+    Flickru.usage
+    Flickru.die __LINE__, "wrong number of arguments: #{ARGV[1,ARGV.length]}"
+  elsif not photo_dir or photo_dir.empty?
+    Flickru.usage
+    Flickru.die __LINE__, "missing photo directory"
+  end
+
+  Flickru.flickru photo_dir
+end
