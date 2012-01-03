@@ -3,10 +3,17 @@
 #$LOAD_PATH.unshift(flickru_dir) unless $LOAD_PATH.include?(flickru_dir)
 
 require 'flickru'
+require 'flickru/version'
 
-photo_dir = ARGV[0]
+photo_dir = File.expand_path ARGV[0]
 
-if ARGV.length > 1
+if ARGV[0] == "-h" or ARGV[0] == "--help"
+  Flickru.usage
+  exit
+elsif ARGV[0] == "-v" or ARGV[0] == "--version"
+  puts Flickru::VERSION
+  exit
+elsif ARGV.length > 1
   Flickru.usage
   Flickru.die __LINE__, "wrong number of arguments: #{ARGV[1,ARGV.length]}"
 elsif photo_dir.nil? or photo_dir.empty?

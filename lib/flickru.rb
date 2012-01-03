@@ -9,6 +9,7 @@ require 'flickru/file'
 require 'flickru/flickr'
 require 'flickru/journey'
 require 'flickru/printer'
+require 'flickru/version'
 
 FlickRaw.api_key       = "aaf7253e0f88f03aa59f9d3074bf2d4b"
 FlickRaw.shared_secret = "138ee268f76cd780"
@@ -18,9 +19,10 @@ module Flickru
 def Flickru.usage
   filename = File.basename __FILE__
   Printer.show "#{filename} -- Flickr upload command-line automator\n"
-  Printer.show "usage: #{filename} <photo directory>\n"
+  Printer.show "usage: #{filename} [-h|--help|-v|--version] <photo directory>\n"
   Printer.show "example: #{filename} my_photos\n"
-  Printer.show "\n#{IO.read('README')}\n"
+  readme = File.expand_path(File.join(File.dirname(__FILE__), '..', 'README'))
+  Printer.show "\n#{IO.read(readme)}\n"
 end
 
 def Flickru.die code, message
@@ -96,17 +98,3 @@ rescue
 end
 
 end # module Flickru
-
-if __FILE__ == $0
-  photo_dir = ARGV[0]
-
-  if ARGV.length > 1
-    Flickru.usage
-    Flickru.die __LINE__, "wrong number of arguments: #{ARGV[1,ARGV.length]}"
-  elsif not photo_dir or photo_dir.empty?
-    Flickru.usage
-    Flickru.die __LINE__, "missing photo directory"
-  end
-
-  Flickru.flickru photo_dir
-end

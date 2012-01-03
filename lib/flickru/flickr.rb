@@ -75,8 +75,11 @@ module Flickr
     end
     flickr.photos.setTags :photo_id => id, :tags => ''
 
+# TODO date taken should be set only for photos/videos without non EXIF metadata
     flickr.photos.setDates :photo_id => id, :date_taken => date
-    flickr.photos.setPerms :photo_id => id, :perm_comment => 1, :perm_addmeta => 0
+    flickr.photos.setPerms :photo_id => id, :is_public => 0,
+                           :is_friend => 1, :is_family => 1, # again! (mandatory) :P
+                           :perm_comment => 1, :perm_addmeta => 0
 # TODO permission MAY be configurable
     if not loc.nil?
       flickr.photos.geo.setLocation :photo_id => id, :lat => loc.latitude,

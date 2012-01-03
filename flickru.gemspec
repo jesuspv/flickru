@@ -10,7 +10,7 @@ Gem::Specification.new do |s|
   s.homepage    = "http://rubygems.org/gems/flickru"
   s.summary     = %q{Command-line Flickr upload automator}
   s.description = IO.read('README')
-  s.files         = `git ls-files -- {bin,lib}/*`.split("\n")
+  s.files         = `git ls-files -- {bin,lib}/* README`.split("\n")
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
   s.executables   = ['flickru']
   s.require_paths = ['lib']
