@@ -17,6 +17,7 @@ Gem::Specification.new do |s|
 
   s.add_dependency "colorize", "~>0.5.8"
   s.add_dependency "escape", "~>0.0.4"
+  s.add_dependency "exifr", "~>1.1.1"
   s.add_dependency "flickraw", "~>0.9.4"
   s.add_dependency "rubygems-update", "~>1.8.11"
   s.add_dependency "simplecov", "~>0.5.4"

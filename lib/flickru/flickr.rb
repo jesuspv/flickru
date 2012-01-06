@@ -49,7 +49,9 @@ module Flickr
         description = "This " + description + "\nDownload original file to play full video."
       end
 
-    date = File.mtime(photo).strftime("%y-%m-%d %H:%M:%S")
+    date = File.date_taken photo
+    if date.nil? then date = File.mtime(photo).strftime "%y-%m-%d %H:%M:%S" end
+
     loc  = Location.new photo
       Printer.show "uploading as " +
                    (loc.nil? ? "\"#{loc.name.black}\" (no location given)" : loc.to_s.black) +
@@ -75,7 +77,6 @@ module Flickr
     end
     flickr.photos.setTags :photo_id => id, :tags => ''
 
-# TODO date taken should be set only for photos/videos without non EXIF metadata
     flickr.photos.setDates :photo_id => id, :date_taken => date
     flickr.photos.setPerms :photo_id => id, :is_public => 0,
                            :is_friend => 1, :is_family => 1, # again! (mandatory) :P

@@ -3,11 +3,12 @@ Command-line tool that automatises photo/video uploads to Flickr.
 Entering 'flickru <directory>' in your command line, any photos under 'directory' (and subdirs)
 are uploaded to your Flickr account (interactively entered at the first time you start flickru).
 
-Photos are identified by case-insensitive extensions: GIF, JPEG, JPG, and PNG.
+Photos are identified by case-insensitive extensions: GIF, JPEG, JPG, PNG, and TIFF.
 Videos are identified by case-insensitive extensions: AVI, MPEG, and MPG.
 
 The following Flickr metadata for photos (as well as videos) is set:
- (1) date-taken from the file (last) modification time
+ (1) date-taken from the file (last) modification time if no JPEG/TIFF
+     Exif metadata (Flickr directly sets photo date-taken by querying Exif)
  (2) private, visible by friends & family, hidden for public searches
  (3) safety level to safe
  (4) permission for friends & family to add comments to the photo and it's notes

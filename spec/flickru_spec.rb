@@ -11,6 +11,10 @@ describe Flickru do
     Flickru.flickru "var/ts/tc_accents"
   end
 
+  it "setting date-taken metadata from Exif metadata if existing" do
+    Flickru.flickru "var/ts/tc_date_taken"
+  end
+
   it "different accuracies work case-insensitively" do
     Flickru.flickru "var/ts/tc_accuracies"
   end

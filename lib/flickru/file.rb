@@ -1,6 +1,8 @@
 # ruby
-require 'escape'
 require 'find'
+# gems
+require 'escape'
+require 'exifr'
 
 class File
 
@@ -44,6 +46,20 @@ class File
     end
   end
 
+  def File.date_taken file
+    attempt = 1
+    begin 
+       case attempt
+       when 1 then EXIFR::JPEG.new(file).date_time_original.strftime "%y-%m-%d %H:%M:%S"
+       when 2 then EXIFR::TIFF.new(file).date_time_original.strftime "%y-%m-%d %H:%M:%S"
+       else nil
+       end
+    rescue
+       attempt += 1
+       retry
+    end 
+  end
+
   def File.human_readable_size file_size
     if file_size < 1000
       file_size.to_s + " bytes"
@@ -58,7 +74,7 @@ class File
 
 private
 
-  IMAGE_EXTENSIONS = [".gif", ".jpg", ".jpeg", ".png"] # lowercase
+  IMAGE_EXTENSIONS = [".gif", ".jpg", ".jpeg", ".png", ".tiff"] # lowercase
   VIDEO_EXTENSIONS = [".mpeg", ".mpg", ".avi"] # lowercase
 
 end
