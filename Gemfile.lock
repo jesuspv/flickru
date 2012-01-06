@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    flickru (0.0.8)
+    flickru (0.0.9)
       colorize (~> 0.5.8)
       escape (~> 0.0.4)
       exifr (~> 1.1.1)
