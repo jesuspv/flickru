@@ -1,38 +1,42 @@
 Command-line tool that automatises photo/video uploads to Flickr.
 
 Entering 'flickru <directory>' in your command line, any photos under 'directory' (and subdirs)
-are uploaded to your Flickr account (interactively entered at the first time you start flickru).
+are uploaded to your Flickr account (interactively entered the first time you start flickru).
 
 Photos are identified by case-insensitive extensions: GIF, JPEG, JPG, PNG, and TIFF.
 Videos are identified by case-insensitive extensions: AVI, MPEG, and MPG.
 
-The following Flickr metadata for photos (as well as videos) is set:
- (1) date-taken from the file (last) modification time if no JPEG/TIFF
-     Exif metadata (Flickr directly sets photo date-taken by querying Exif)
- (2) private, visible by friends & family, hidden for public searches
- (3) safety level to safe
- (4) permission for friends & family to add comments to the photo and it's notes
- (5) permission for nobody to add notes and tags to the photo
- (6) for videos larger than the Flickr's longer than 90s (but shorter than 500MB,
-     Flickr's maximum permisible size), the description will contain an annotation
-     about its large duration.
- (7) title, geolocation, and accuracy from the owner directory's name.
+flickru automatically sets the following Flickr metadata:
+ (1) date taken: if JPEG/TIFF Exif metadata is found, date is
+     extracted from them, otherwise flickru sets date to the last modification
+     time.
+ (2) privacy policy: private, visible by friends & family, hidden for public
+     searches
+ (3) safety level: safe
+ (4) permissions: friends & family can add comments to the photo and its notes;
+     nobody can add notes and tags to the photo
+ (5) description: for videos longer than 90s (Flickr's longest allowed duration)
+     but shorter than 500MB (Flickr's maximum permisible size), it will contain
+     an annotation about its large duration.
+ (6) title, geolocation, and accuracy: extracted from the parent directory name.
 
-Owner directory name format is given by the format 'TITLE[@LOCATION[#PRECISION]]',
+Before uploading photos, please, make sure that you have correctly named each
+photos parent directory according to the name format 'TITLE[@LOCATION[#PRECISION]]',
 where:
- (1) TITLE is the desired title for the photos directly stored in the directory
- (2) LOCATION is the location of the stored photos specified as either:
+ (1) TITLE is the desired title for the photos stored in the directory
+ (2) LOCATION is the location of the photos. Flickru gets locations in two ways:
    (a) the Wikipedia page name (whitespaces allowed) of the location (if exists) or
    (b) its coordinates LATITUDE,LONGITUDE
- (3) PRECISION is the Flickr geolocation precision given by one of the following
-     case insentitive literals: street, city, region, country, world.
+ (3) PRECISION is the Flickr geolocation precision. Flickru sets it to one of
+     the following case insentitive literals: 'street', 'city', 'region',
+     'country', 'world'.
 
-Photos are classified into a photoset (existing or not) entitled with the
-second-level directory name containing the photo. The photoset is arranged by
-date taken (older first).
+Photos are classified into photosets. If the photoset does not exist, flickru
+creates it. This photoset is named after its grandparent directory. The
+photoset is arranged by 'date taken' (older first).
 
 To see some examples on the directory structure recognised by flickru, please
-explore the subdirectories under var/ts.
+explore the subdirectories under 'var/ts'.
 
 Homepage: http://rubygems.org/gems/flickru
 GitHub: http://github.com/jesuspv/flickru

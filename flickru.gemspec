@@ -15,6 +15,7 @@ Gem::Specification.new do |s|
   s.executables   = ['flickru']
   s.require_paths = ['lib']
 
+  s.add_dependency "bundler", "~>1.0.21"
   s.add_dependency "colorize", "~>0.5.8"
   s.add_dependency "escape", "~>0.0.4"
   s.add_dependency "exifr", "~>1.1.1"

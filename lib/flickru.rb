@@ -1,5 +1,4 @@
 # ruby
-require 'etc'
 require 'set'
 # gems
 require 'rubygems'
@@ -22,7 +21,7 @@ def Flickru.usage
   Printer.show "usage: #{filename} [-h|--help|-v|--version] <photo directory>\n"
   Printer.show "example: #{filename} my_photos\n"
   readme = File.expand_path(File.join(File.dirname(__FILE__), '..', 'README'))
-  Printer.show "\n#{IO.read(readme)}\n"
+  Printer.show "\n#{IO.read(readme)}"
 end
 
 def Flickru.die code, message
@@ -31,7 +30,7 @@ def Flickru.die code, message
 end
 
 def Flickru.config_filename
-  File.join Etc.getpwuid.dir, "." + File.basename(__FILE__, File.extname(__FILE__)) + "rc"
+  File.join ENV['HOME'], "." + File.basename(__FILE__, File.extname(__FILE__)) + "rc"
 end
 
 def self.read_config
