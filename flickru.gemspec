@@ -11,8 +11,11 @@ Gem::Specification.new do |s|
   s.summary     = %q{Command-line Flickr upload automator}
   s.description = IO.read('README')
   s.files         = `git ls-files -- {bin,lib}/* README`.split("\n")
-  s.test_files    = `git ls-files -- {spec,var}/*|grep -v tc_accents`.split("\n")
+  s.test_files    = `git ls-files -- {spec,var}/* \
+      | grep -v tc_accents | grep -v tc_whitespaces` \
+      .split("\n")
     # accents are escaped by git and not managed properly by rake
+    # whitespaces are not properly managed by win32 gem install
   s.executables   = ['flickru']
   s.require_paths = ['lib']
 
