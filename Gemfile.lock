@@ -1,14 +1,13 @@
 PATH
   remote: .
   specs:
-    flickru (0.0.13)
+    flickru (0.0.14)
       bundler (~> 1.0.21)
       colorize (~> 0.5.8)
       escape (~> 0.0.4)
       exifr (~> 1.1.1)
       flickraw (~> 0.9.4)
       rubygems-update (~> 1.8.11)
-      simplecov (~> 0.5.4)
       unicode_utils (~> 1.1.2)
 
 GEM
@@ -41,3 +40,4 @@ PLATFORMS
 DEPENDENCIES
   flickru!
   rspec (~> 2.7.0)
+  simplecov (~> 0.5.4)
