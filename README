@@ -23,9 +23,11 @@ flickru automatically sets the following Flickr metadata:
 Before uploading photos, please, make sure that you have correctly named each
 photos parent directory according to the name format 'TITLE[@LOCATION[#PRECISION]]',
 where:
- (1) TITLE is the desired title for the photos stored in the directory
- (2) LOCATION is the location of the photos. Flickru gets locations in two ways:
-   (a) the Wikipedia page name (whitespaces allowed) of the location (if exists) or
+ (1) TITLE is the desired title for the photos stored in the directory. If no
+     LOCATION is given, flickru tries to extract the location from Wikipedia
+     page TITLE.
+ (2) LOCATION is the location of the photos, specified as:
+   (a) the Wikipedia page name (whitespaces allowed) of the location or
    (b) its coordinates LATITUDE,LONGITUDE
  (3) PRECISION is the Flickr geolocation precision. Flickru sets it to one of
      the following case insentitive literals: 'street', 'city', 'region',

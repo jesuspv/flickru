@@ -3,13 +3,13 @@ require 'rbconfig'
 # gems
 require 'colorize'
 require 'escape'
+require 'open-uri'
 # flickru
 require 'flickru/ruby'
 require 'flickru/string'
 
 class Location
 
-  GEOWIKI = File.expand_path(File.join File.dirname(__FILE__), '..', '..', 'bin', 'geowiki')
   DEFAULT_ACCURACY = "street"
   COORD_PATTERN = "-?[0-9]+\.?[0-9]*"
 
@@ -47,7 +47,7 @@ class Location
 
 private
 
-  def self.parse location
+  def Location.parse location
 # TODO special characters MAY be escaped
     idx_accuracy = location.index('#') ? location.index('#') : location.length
     idx_place    = location.index('@') ? location.index('@') : idx_accuracy
@@ -59,15 +59,10 @@ private
     [name, place, accuracy]
   end
 
-  def self.locate place
+  def Location.locate place
     the_place = place # needed for RuntimeError reporting
     begin
-      is_win  = case RbConfig::CONFIG['target_os']
-                when /mswin|mingw|cygwin/i then true
-                else false end
-      command = Escape.shell_command((is_win ? ['bash'] : []) + [GEOWIKI, place])
-      null    = is_win ? 'NUL' : '/dev/null'
-      place = `#{command} 2> #{null}`[0..-2] \
+      place = Location.geowiki place \
         if place !~ /^#{COORD_PATTERN}, *#{COORD_PATTERN}$/
       if place =~ /^#{COORD_PATTERN}, *#{COORD_PATTERN}$/
         # latitude, longitude
@@ -76,12 +71,7 @@ private
         raise RuntimeError
       end
     rescue
-      message = "location #{the_place} not found"
-      if is_win
-        message += ", please, verify that command 'bash' (from, e.g., " +
-                   "http://unxutils.sourceforge.net) is in your PATH"
-      end
-      raise RuntimeError, message
+      raise RuntimeError, "location #{the_place} not found"
     end
   end
 
@@ -105,5 +95,15 @@ private
     when 16 then "street"
     else         @accuracy
     end
+  end
+
+  def Location.geowiki place
+    wiki = open("http://en.wikipedia.org/wiki/#{place}").read
+    geo  = open(wiki.tr("\"", "\n").split("\n").grep(/geohack/)
+                    .first.sub('&amp;','&')).read \
+           .split("\n").grep(/<span class="geo"/).first
+    latitude  = geo.sub(/^.*"Latitude">/, '').sub(/<\/span>, .*/, '')
+    longitude = geo.sub(/.*"Longitude">/, '').sub(/<\/span>.*$/, '')
+    latitude + ", " + longitude
   end
 end
