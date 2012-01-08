@@ -62,10 +62,12 @@ private
   def self.locate place
     the_place = place # needed for RuntimeError reporting
     begin
-      is_win  = RbConfig::CONFIG['target_os'].downcase.include? 'mswin32'
-      command = Escape.shell_command (if is_win then ['bash', GEOWIKI, place]
-                                                else [        GEOWIKI, place] end)
-      place = `#{command} 2> /dev/null`[0..-2] \
+      is_win  = case RbConfig::CONFIG['target_os']
+                when /mswin|mingw|cygwin/i then true
+                else false end
+      command = Escape.shell_command((is_win ? ['bash'] : []) + [GEOWIKI, place])
+      null    = is_win ? 'NUL' : '/dev/null'
+      place = `#{command} 2> #{null}`[0..-2] \
         if place !~ /^#{COORD_PATTERN}, *#{COORD_PATTERN}$/
       if place =~ /^#{COORD_PATTERN}, *#{COORD_PATTERN}$/
         # latitude, longitude

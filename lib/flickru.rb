@@ -89,7 +89,7 @@ def self.flickru photo_dir
               "  and better collection mosaics can be randomised."
 rescue Exception => e
   file_line = e.backtrace[0].split(':')
-  Printer.error "error:#{File.basename file_line[0]}:#{file_line[1]}: #{e.message}"
+  Printer.error "error:#{File.basename file_line[-3]}:#{file_line[-2]}: #{e.message}"
   exit 1
 end
 
