@@ -18,7 +18,7 @@ function usage {
 }
 
 function error {
-   echo -e "\033[31m$APP_NAME: $1: $2\033[0m" 1>&2
+   echo -e "\033[31m$APP_NAME:$1: $2\033[0m" 1>&2
 }
 
 #################
