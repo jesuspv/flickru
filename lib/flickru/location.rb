@@ -1,4 +1,7 @@
+# ruby
+require 'rbconfig'
 # gems
+require 'colorize'
 require 'escape'
 # flickru
 require 'flickru/ruby'
@@ -38,8 +41,8 @@ class Location
 
   def to_s
     place = @place.nil? ? "an undefined place" : @place
-    "\"#{@name}\" at #{place} (~#{accuracy_to_s}) " +
-    "on lat: #{@latitude}, lon: #{@longitude}"
+    "#{@name.black} at #{place.black} (~#{accuracy_to_s.black}) " +
+    "on lat: #{@latitude.black}, lon: #{@longitude.black}"
   end
 
 private
@@ -59,7 +62,10 @@ private
   def self.locate place
     the_place = place # needed for RuntimeError reporting
     begin
-      place = `#{Escape.shell_command [GEOWIKI, place]} 2> /dev/null`[0..-2] \
+      is_win  = RbConfig::CONFIG['target_os'].downcase.include? 'mswin32'
+      command = Escape.shell_command (if is_win then ['bash', GEOWIKI, place]
+                                                else [        GEOWIKI, place] end)
+      place = `#{command} 2> /dev/null`[0..-2] \
         if place !~ /^#{COORD_PATTERN}, *#{COORD_PATTERN}$/
       if place =~ /^#{COORD_PATTERN}, *#{COORD_PATTERN}$/
         # latitude, longitude
@@ -68,7 +74,12 @@ private
         raise RuntimeError
       end
     rescue
-      raise RuntimeError, "location #{the_place} not found"
+      message = "location #{the_place} not found"
+      if is_win
+        message += ", please, verify that command 'bash' (from, e.g., " +
+                   "http://unxutils.sourceforge.net) is in your PATH"
+      end
+      raise RuntimeError, message
     end
   end
 

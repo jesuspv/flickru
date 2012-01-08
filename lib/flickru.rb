@@ -24,11 +24,6 @@ def Flickru.usage
   Printer.show "\n#{IO.read(readme)}"
 end
 
-def Flickru.die code, message
-  Printer.error "error:#{code}: #{message}"
-  exit 1
-end
-
 def Flickru.config_filename
   File.join ENV['HOME'], "." + File.basename(__FILE__, File.extname(__FILE__)) + "rc"
 end
@@ -92,8 +87,10 @@ def self.flickru photo_dir
   Printer.ask "Please, review whether: any of your photos need to be rotated,\n" +
               "  better primary photos for your sets have been uploaded,\n" +
               "  and better collection mosaics can be randomised."
-rescue
-  die __LINE__, $!
+rescue Exception => e
+  file_line = e.backtrace[0].split(':')
+  Printer.error "error:#{File.basename file_line[0]}:#{file_line[1]}: #{e.message}"
+  exit 1
 end
 
 end # module Flickru

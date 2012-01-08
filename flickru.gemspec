@@ -11,7 +11,7 @@ Gem::Specification.new do |s|
   s.summary     = %q{Command-line Flickr upload automator}
   s.description = IO.read('README')
   s.files         = `git ls-files -- {bin,lib}/* README`.split("\n")
-  s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
+  s.test_files    = `git ls-files -- {spec,var/ts}/*`.split("\n")
   s.executables   = ['flickru']
   s.require_paths = ['lib']
 

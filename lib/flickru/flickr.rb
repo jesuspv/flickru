@@ -53,9 +53,9 @@ module Flickr
     if date.nil? then date = File.mtime(photo).strftime "%y-%m-%d %H:%M:%S" end
 
     loc  = Location.new photo
-      Printer.show "uploading as " +
-                   (loc.nil? ? "\"#{loc.name.black}\" (no location given)" : loc.to_s.black) +
-                   " taken on #{date}... "
+      Printer.show "uploading " +
+                   (loc.nil? ? "#{loc.name.black} (no location given)" : loc.to_s) +
+                   " taken on #{date.black}... "
     begin
       id = flickr.upload_photo photo, :title => UnicodeUtils.nfkc(loc.name), :is_public => 0,
                                       :description => description, :tags => UPLOADING_TAG,
