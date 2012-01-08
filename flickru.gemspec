@@ -10,8 +10,9 @@ Gem::Specification.new do |s|
   s.homepage    = "http://rubygems.org/gems/flickru"
   s.summary     = %q{Command-line Flickr upload automator}
   s.description = IO.read('README')
-  s.files         = `git ls-files -- {bin,lib,var/ts}/* README`.split("\n")
-  s.test_files    = `git ls-files -- spec/*`.split("\n")
+  s.files         = `git ls-files -- {bin,lib}/* README`.split("\n")
+  s.test_files    = `git ls-files -- {spec,var}/*|grep -v tc_accents`.split("\n")
+    # accents are escaped by git and not managed properly by rake
   s.executables   = ['flickru']
   s.require_paths = ['lib']
 
