@@ -50,12 +50,19 @@ module Flickr
       end
 
     date = File.date_taken photo
-    if date.nil? then date = File.mtime(photo).strftime "%y-%m-%d %H:%M:%S" end
+    if date.nil?
+      date = File.mtime(photo).strftime "%y-%m-%d %H:%M:%S"
+      exif_has_date = false
+    else
+      exif_has_date = true
+    end
 
+    geotagged = File.geotagged? photo
     loc  = Location.new photo
       Printer.show "uploading " +
-                   (loc.nil? ? "#{loc.name.black} (no location given)" : loc.to_s) +
-                   " taken on #{date.black}... "
+         (geotagged ? "#{loc.name.black} (geotagged)"
+                    : (loc.nil? ? "#{loc.name.black} (no location given)" : loc.to_s)) \
+         + " taken on #{date.black} #{exif_has_date ? "(Exif)" : "(mtime)"}... "
     begin
       id = flickr.upload_photo photo, :title => UnicodeUtils.nfkc(loc.name), :is_public => 0,
                                       :description => description, :tags => UPLOADING_TAG,
@@ -77,14 +84,16 @@ module Flickr
     end
     flickr.photos.setTags :photo_id => id, :tags => ''
 
-    flickr.photos.setDates :photo_id => id, :date_taken => date
+    if not exif_has_date
+      flickr.photos.setDates :photo_id => id, :date_taken => date
+    end
     flickr.photos.setPerms :photo_id => id, :is_public => 0,
-                           :is_friend => 1, :is_family => 1, # again! (mandatory) :P
+                           :is_friend => 1, :is_family => 1, # again! (mandatory args) :P
                            :perm_comment => 1, :perm_addmeta => 0
 # TODO permission MAY be configurable
-    if not loc.nil?
+    if not geotagged and not loc.nil?
       flickr.photos.geo.setLocation :photo_id => id, :lat => loc.latitude,
-                                    :lon => loc.longitude, :accuracy => loc.accuracy                             
+                                    :lon => loc.longitude, :accuracy => loc.accuracy
     end
 
     Printer.success

@@ -7,7 +7,7 @@ Gem::Specification.new do |s|
   s.version     = Flickru::VERSION
   s.authors     = ["Jesus Pardillo"]
   s.email       = ["dev@jesuspardillo.com"]
-  s.homepage    = "http://rubygems.org/gems/flickru"
+  s.homepage    = "http://github.com/jesuspv/flickru"
   s.summary     = %q{Command-line Flickr upload automator}
   s.description = IO.read('README')
   s.files         = `git ls-files -- {bin,lib}/* README`.split("\n")

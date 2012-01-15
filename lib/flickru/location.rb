@@ -5,6 +5,7 @@ require 'colorize'
 require 'escape'
 require 'open-uri'
 # flickru
+require 'flickru/file'
 require 'flickru/ruby'
 require 'flickru/string'
 
@@ -18,12 +19,12 @@ class Location
   def initialize photo
     dir   = File.basename File.dirname(photo)
     name, place, accuracy = Location.parse dir
-    raise RuntimeError, "unnamed location #{dir}" if name.nil?
+    raise RuntimeError, "#{dir}, name not provided" if name.nil?
     @name = name
     begin
-      @place    = place.nil? ? name : place
+      @place     = place.nil? ? name : place
       @latitude, @longitude = Location.locate @place
-      @accuracy = Location.s_to_accuracy(accuracy ? accuracy : DEFAULT_ACCURACY)
+      @accuracy  = Location.s_to_accuracy(accuracy ? accuracy : DEFAULT_ACCURACY)
     rescue RuntimeError
       raise if place
       raise RuntimeError, "location #{name} not found" if accuracy

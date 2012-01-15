@@ -7,9 +7,8 @@ Photos are identified by case-insensitive extensions: GIF, JPEG, JPG, PNG, and T
 Videos are identified by case-insensitive extensions: AVI, MPEG, and MPG.
 
 flickru automatically sets the following Flickr metadata:
- (1) date taken: if JPEG/TIFF Exif metadata is found, date is
-     extracted from them, otherwise flickru sets date to the last modification
-     time.
+ (1) date taken: file last-modification time, unless JPEG/TIFF Exif metadatum
+     'date_time_original' is found (Flickr understands it natively).
  (2) privacy policy: private, visible by friends & family, hidden for public
      searches
  (3) safety level: safe
@@ -18,7 +17,9 @@ flickru automatically sets the following Flickr metadata:
  (5) description: for videos longer than 90s (Flickr's longest allowed duration)
      but shorter than 500MB (Flickr's maximum permisible size), it will contain
      an annotation about its large duration.
- (6) title, geolocation, and accuracy: extracted from the parent directory name.
+ (6) title: extracted from the parent directory name
+ (7) geolocation & accuracy: extracted from the parent directory name, unless
+     JPEG/TIFF Exif GPS metadata is found (Flickr understands them natively).
 
 Before uploading photos, please, make sure that you have correctly named each
 photos parent directory according to the name format 'TITLE[@LOCATION[#PRECISION]]',
@@ -40,5 +41,5 @@ photoset is arranged by 'date taken' (older first).
 To see some examples on the directory structure recognised by flickru, please
 explore the subdirectories under 'var/ts'.
 
-Homepage: http://rubygems.org/gems/flickru
-GitHub: http://github.com/jesuspv/flickru
+GitHub  : http://github.com/jesuspv/flickru
+RubyGems: http://rubygems.org/gems/flickru

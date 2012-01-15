@@ -2,6 +2,7 @@
 #flickru_dir = File.expand_path(File.join(File.dirname(__FILE__), '..', 'lib'))
 #$LOAD_PATH.unshift(flickru_dir) unless $LOAD_PATH.include?(flickru_dir)
 
+# flickru
 require 'flickru'
 require 'flickru/version'
 
@@ -22,6 +23,9 @@ photo_dir = File.expand_path ARGV[0]
 if photo_dir.nil? or photo_dir.empty?
   Flickru.usage
   Flickru.die __LINE__, "missing photo directory"
+elsif not File.directory? photo_dir
+  Flickru.usage
+  Flickru.die __LINE__, "'#{ARGV[0]}' is not directory"
 end
 
 Flickru.flickru photo_dir
