@@ -61,7 +61,7 @@ curl "http://en.wikipedia.org/wiki/$PAGE" -o "$TMP" 2> /dev/null
       clean_up 1
    fi
 
-URL=`cat "$TMP" | tr '"' '\n' | grep geohack | head -n 1 | sed -e 's|&amp;|\&|'`
+URL=`cat "$TMP" | tr '"' '\n' | grep geohack | head -n 1 | sed -e 's|^//||' -e 's|&amp;|\&|'`
 
    if [ -z "$URL" ]; then
       error $LINENO "location not found in Wikipedia page '$PAGE'"

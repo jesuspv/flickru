@@ -49,7 +49,7 @@ class Location
 private
 
   def Location.parse location
-# TODO special characters MAY be escaped
+# TODO special characters MAY be escaped
     idx_accuracy = location.index('#') ? location.index('#') : location.length
     idx_place    = location.index('@') ? location.index('@') : idx_accuracy
 
@@ -61,7 +61,7 @@ private
   end
 
   def Location.locate place
-    the_place = place # needed for RuntimeError reporting
+    the_place = place # needed for RuntimeError reporting
     begin
       place = Location.geowiki place \
         if place !~ /^#{COORD_PATTERN}, *#{COORD_PATTERN}$/
@@ -100,9 +100,9 @@ private
 
   def Location.geowiki place
     wiki = open("http://en.wikipedia.org/wiki/#{place}").read
-    geo  = open(wiki.tr("\"", "\n").split("\n").grep(/geohack/)
-                    .first.sub('&amp;','&')).read \
-           .split("\n").grep(/<span class="geo"/).first
+    tool = open(wiki.tr("\"", "\n").split("\n").grep(/geohack/) \
+                    .first.sub(/^\/\//,'http://').sub('&amp;','&')).read
+    geo  = tool.split("\n").grep(/<span class="geo"/).first
     latitude  = geo.sub(/^.*"Latitude">/, '').sub(/<\/span>, .*/, '')
     longitude = geo.sub(/.*"Longitude">/, '').sub(/<\/span>.*$/, '')
     latitude + ", " + longitude
