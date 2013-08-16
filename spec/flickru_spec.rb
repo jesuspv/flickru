@@ -1,7 +1,7 @@
 # gems
 require 'colorize'
 require 'simplecov'
-SimpleCov.coverage_dir(File.expand_path(File.join(File.dirname(__FILE__), '..', '..', 'var', 'cov')))
+SimpleCov.coverage_dir(File.join('var', 'cov'))
 SimpleCov.start # should be before loading flickru code!
 # flickru
 require 'flickru'
@@ -41,6 +41,10 @@ describe Flickru do
 
   it "leading and trailing whitespaces are removed" do
     Flickru.flickru "var/ts/tc_whitespaces"
+  end
+
+  it "processing by alphabetical order (by filename)" do
+    Flickru.flickru "var/ts/tc_sorting"
   end
 
   after(:all) do

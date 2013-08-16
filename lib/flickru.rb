@@ -71,7 +71,7 @@ def self.flickru photo_dir
   Printer.info "#{File.human_readable_size total_size} to upload"
   journey      = Journey.new total_size
   photoset_ids = Set.new
-  photos.each do |photo|
+  photos.sort.each do |photo|
       Printer.info "file '#{File.join File.basename(File.dirname(photo)), File.basename(photo)}' under process"
     begin
       photo_id = Flickr.upload_photo photo

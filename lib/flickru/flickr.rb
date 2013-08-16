@@ -1,5 +1,5 @@
 # gems
-require 'flickraw'
+require 'flickraw-cached'
 require 'unicode_utils'
 # flickru
 require 'flickru/file'

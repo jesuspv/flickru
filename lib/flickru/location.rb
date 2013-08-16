@@ -1,7 +1,6 @@
 # ruby
 require 'rbconfig'
 # gems
-require 'cache'
 require 'colorize'
 require 'escape'
 require 'open-uri'
@@ -48,8 +47,6 @@ class Location
   end
 
 private
-
-  @@cache = Cache.new
 
   def Location.parse location
 # TODO special characters MAY be escaped
@@ -102,15 +99,12 @@ private
   end
 
   def Location.geowiki place
-    if not @@cache[place].nil? then
-      return @@cache[place]
-    end
-    wiki = open("http://en.wikipedia.org/wiki/#{place}").read
+    wiki = open("http://en.wikipedia.org/wiki/#{URI::encode(place)}").read
     tool = open(wiki.tr("\"", "\n").split("\n").grep(/geohack/) \
                     .first.sub(/^\/\//,'http://').sub('&amp;','&')).read
     geo  = tool.split("\n").grep(/<span class="geo"/).first
     latitude  = geo.sub(/^.*"Latitude">/, '').sub(/<\/span>, .*/, '')
     longitude = geo.sub(/.*"Longitude">/, '').sub(/<\/span>.*$/, '')
-    @@cache[place] = latitude + ", " + longitude
+    latitude + ", " + longitude
   end
 end
