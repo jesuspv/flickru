@@ -99,6 +99,6 @@ class File
 private
 
   IMAGE_EXTENSIONS = [".gif", ".jpg", ".jpeg", ".png", ".tiff"] # lowercase
-  VIDEO_EXTENSIONS = [".mpeg", ".mpg", ".avi"] # lowercase
+  VIDEO_EXTENSIONS = [".mpeg", ".mpg", ".avi", ".mp4"] # lowercase
 
 end
