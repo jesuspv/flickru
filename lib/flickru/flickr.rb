@@ -43,8 +43,8 @@ module Flickr
     Ruby.assert("not Flickr.size_limit_exceeded?(photo)") \
                { not Flickr.size_limit_exceeded?(photo) }
 
-      if File.duration(photo) > 90 # seconds
-        description = "video duration (#{File.duration photo} sec) exceeds Flickr's duration limit (90 sec)."
+      if File.duration(photo) > 180 # seconds
+        description = "video duration (#{File.duration photo} sec) exceeds Flickr's duration limit (180 sec)."
         Printer.warn description
         description = "This " + description + "\nDownload original file to play full video."
       end
