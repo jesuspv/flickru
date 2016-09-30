@@ -19,13 +19,13 @@ Gem::Specification.new do |s|
   s.executables   = ['flickru']
   s.require_paths = ['lib']
 
-  s.add_dependency "bundler", "~>1.3.5"
-  s.add_dependency "colorize", "~>0.5.8"
+  s.add_dependency "bundler", "~>1.13.1"
+  s.add_dependency "colorize", "~>0.8.1"
   s.add_dependency "escape", "~>0.0.4"
-  s.add_dependency "exifr", "~>1.1.3"
+  s.add_dependency "exifr", "~>1.2.5"
   s.add_dependency "flickraw-cached", "~>20120701"
-  s.add_dependency "rubygems-update", "~>2.0.7"
-  s.add_development_dependency "rspec", "~>2.14.1"
-  s.add_development_dependency "simplecov", "~>0.7.1"
+  s.add_dependency "rubygems-update", "~>2.6.7"
+  s.add_development_dependency "rspec", "~>3.5.0"
+  s.add_development_dependency "simplecov", "~>0.12.0"
   s.add_dependency "unicode_utils", "~>1.4.0"
 end
