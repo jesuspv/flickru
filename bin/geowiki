@@ -11,13 +11,13 @@ PAGE=`echo "$1" | tr ' ' '_'`
 # Functions #
 #############
 
-function usage {
+function usage() {
    echo "$APP_NAME - find coordinates of a place described by Wikipedia"
    echo "usage: $APP_NAME <place Wikipedia page>"
    echo "example: $APP_NAME 'Mille-Isles, Quebec'"
 }
 
-function error {
+function error() {
    echo -e "\033[31m$APP_NAME:$1: $2\033[0m" 1>&2
 }
 
@@ -25,10 +25,10 @@ function error {
 # Preconditions #
 #################
 
-if [ "$1" == "-h" -o "$1" == "--help" ]; then
+if [[ "$1" == "-h" ]] || [[ "$1" == "--help" ]]; then
    usage
    exit
-elif [ $# -ne 1 ]; then
+elif [[ $# -ne 1 ]]; then
    usage
    error $LINENO "wrong number of arguments"
    exit 1
@@ -39,12 +39,12 @@ fi
 #########
 
 # temporal file management
-if [ -d /tmp ]; then
+if [[ -d /tmp ]]; then
    TMP="/tmp/$PAGE.tmp.$$.$RANDOM.html"
 else
    TMP="$PAGE.tmp.html"
 fi
-function clean_up {
+function clean_up() {
         rm -f "$TMP"
         exit $1
 }
@@ -54,23 +54,23 @@ trap clean_up SIGHUP SIGINT SIGTERM
 # Main #
 ########
 
-curl "http://en.wikipedia.org/wiki/$PAGE" -o "$TMP" 2> /dev/null
+wget -o /dev/null -O "$TMP" "http://en.wikipedia.org/wiki/$PAGE"
 
-   if [ $? -ne 0 ]; then
+   if [[ $? -ne 0 ]]; then
       error $LINENO "Wikipedia page '$PAGE' not found"
       clean_up 1
    fi
 
 URL=`cat "$TMP" | tr '"' '\n' | grep geohack | head -n 1 | sed -e 's|^//||' -e 's|&amp;|\&|'`
 
-   if [ -z "$URL" ]; then
+   if [[ -z "$URL" ]]; then
       error $LINENO "location not found in Wikipedia page '$PAGE'"
       clean_up 1
    fi
 
 curl "$URL" -o "$TMP" 2> /dev/null
 
-   if [ $? -ne 0 ]; then
+   if [[ $? -ne 0 ]]; then
       error $LINENO "GeoHack URL '$URL' not found"
       clean_up 1
    fi
