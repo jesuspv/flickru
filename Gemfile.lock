@@ -1,14 +1,14 @@
 PATH
   remote: .
   specs:
-    flickru (0.4.0)
-      bundler (~> 1.13.1)
-      colorize (~> 0.8.1)
-      escape (~> 0.0.4)
-      exifr (~> 1.2.5)
+    flickru (0.4.4)
+      bundler (~> 1.13, >= 1.13.1)
+      colorize (~> 0.8, >= 0.8.1)
+      escape (~> 0.0, >= 0.0.4)
+      exifr (~> 1.2, >= 1.2.5)
       flickraw-cached (~> 20120701)
-      rubygems-update (~> 2.6.7)
-      unicode_utils (~> 1.4.0)
+      rubygems-update (~> 2.6, >= 2.6.7)
+      unicode_utils (~> 1.4, >= 1.4.0)
 
 GEM
   remote: http://rubygems.org/
@@ -26,7 +26,7 @@ GEM
       rspec-core (~> 3.5.0)
       rspec-expectations (~> 3.5.0)
       rspec-mocks (~> 3.5.0)
-    rspec-core (3.5.3)
+    rspec-core (3.5.4)
       rspec-support (~> 3.5.0)
     rspec-expectations (3.5.0)
       diff-lcs (>= 1.2.0, < 2.0)
@@ -48,8 +48,8 @@ PLATFORMS
 
 DEPENDENCIES
   flickru!
-  rspec (~> 3.5.0)
-  simplecov (~> 0.12.0)
+  rspec (~> 3.5, >= 3.5.0)
+  simplecov (~> 0.12, >= 0.12.0)
 
 BUNDLED WITH
-   1.13.1
+   1.13.2
