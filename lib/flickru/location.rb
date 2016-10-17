@@ -99,7 +99,7 @@ private
   end
 
   def Location.geowiki place
-    wiki = open("http://en.wikipedia.org/wiki/#{URI::encode(place)}").read
+    wiki = open("https://en.wikipedia.org/wiki/#{URI::encode(place)}").read
     tool = open(wiki.tr("\"", "\n").split("\n").grep(/geohack/) \
                     .first.sub(/^\/\//,'http://').sub('&amp;','&')).read
     geo  = tool.split("\n").grep(/<span class="geo"/).first

@@ -59,7 +59,7 @@ trap clean_up SIGHUP SIGINT SIGTERM
 # Main #
 ########
 
-wget -o /dev/null -O "$TMP" "http://en.wikipedia.org/wiki/$PAGE"
+wget -o /dev/null -O "$TMP" "https://en.wikipedia.org/wiki/$PAGE"
 
    if [[ $? -ne 0 ]]; then
       error $LINENO "Wikipedia page '$PAGE' not found"
