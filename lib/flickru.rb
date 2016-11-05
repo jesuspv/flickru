@@ -18,8 +18,12 @@ module Flickru
 def Flickru.usage
   filename = File.basename __FILE__
   Printer.show "#{filename} -- Flickr upload command-line automator\n"
-  Printer.show "usage: #{filename} [-h|--help|-v|--version] <photo directory>\n"
+  Printer.show "usage: #{filename} [<options>] <photo directory>\n"
   Printer.show "example: #{filename} my_photos\n"
+  Printer.show "options:\n"
+  Printer.show "  -h, --help      show help\n"
+  Printer.show "  -r, --rm        delete each photo when uploaded\n"
+  Printer.show "  -v, --version   show version\n"
   readme = File.expand_path(File.join(File.dirname(__FILE__), '..', 'README'))
   Printer.show "\n#{IO.read(readme)}"
 end
@@ -57,7 +61,7 @@ rescue
   raise RuntimeError, "unable to write configuration file #{config_filename}"
 end
 
-def self.flickru photo_dir
+def self.flickru rmFlag, photo_dir
   begin
     Flickru.read_config
   rescue RuntimeError
@@ -74,15 +78,23 @@ def self.flickru photo_dir
   photos.sort.each do |photo|
       Printer.info "file '#{File.join File.basename(File.dirname(photo)), File.basename(photo)}' under process"
     begin
+      retries ||= 0
       photo_id = Flickr.upload_photo photo
       photoset_ids << Flickr.classify(photo, photo_id)
-    rescue ArgumentError || Errno::ENOENT || Errno::EAGAIN || FlickRaw::FailedResponse
-      Printer.failure "#{photo}: #{$!}"
+    rescue ArgumentError || Errno::ENOENT || Errno::EAGAIN || Errno::EPIPE || FlickRaw::FailedResponse
+      if (retries += 1) < 3
+        Printer.warn "retrying #{photo}: #{$!}"
+        sleep (Math.exp retries)
+        retry
+      else
+        Printer.failure "#{photo}: #{$!}"
+      end
     end
     journey.take File.size(photo)
     Printer.info "#{File.human_readable_size journey.progress} uploaded, " +
                  "#{File.human_readable_size journey.distance} remaining. " +
                  "ETA: #{Printer.human_readable_seconds journey.eta}" if journey.eta > 0
+    File.delete photo if rmFlag
   end
 
   photoset_ids.each do |set_id|
@@ -93,7 +105,7 @@ def self.flickru photo_dir
               "  better primary photos for your sets have been uploaded,\n" +
               "  and better collection mosaics can be randomised."
 rescue Exception => e
-  file_line = e.backtrace[0].split(':')
+  file_line = e.backtrace.empty? ? "?" : e.backtrace[0].split(':')
   Flickru.die "#{File.basename file_line[-3]}:#{file_line[-2]}", e.message
 end
 
