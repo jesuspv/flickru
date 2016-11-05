@@ -3,22 +3,23 @@ $:.push File.expand_path("../lib", __FILE__)
 require "flickru/version"
 
 Gem::Specification.new do |s|
-  s.name        = "flickru"
-  s.version     = Flickru::VERSION
-  s.licenses    = ['MIT']
-  s.authors     = ["Jesus Pardillo"]
-  s.email       = ["dev@jesuspardillo.com"]
-  s.homepage    = "http://github.com/jesuspv/flickru"
-  s.summary     = %q{Command-line Flickr upload automator}
-  s.description = IO.read('README')
-  s.files       = `git ls-files -- {bin,lib,share}/* README`.split("\n")
-  s.test_files  = `git ls-files -- {spec,var}/* \
+  s.name             = "flickru"
+  s.version          = Flickru::VERSION
+  s.licenses         = ['MIT']
+  s.authors          = ["Jesus Pardillo"]
+  s.email            = ["dev@jesuspardillo.com"]
+  s.homepage         = "http://github.com/jesuspv/flickru"
+  s.summary          = %q{Command-line Flickr upload automator}
+  s.description      = IO.read('README')
+  s.extra_rdoc_files = ['README']
+  s.files            = `git ls-files -- {bin,lib,share}/* README`.split("\n")
+  s.test_files       = `git ls-files -- {spec,var}/* \
       | grep -v tc_accents | grep -v tc_whitespaces` \
       .split("\n")
     # accents are escaped by git and not managed properly by rake
     # whitespaces are not properly managed by win32 gem install
-  s.executables   = ['flickru', 'geowiki']
-  s.require_paths = ['lib']
+  s.executables      = ['flickru', 'geowiki']
+  s.require_paths    = ['lib']
 
   s.add_dependency "bundler", "~>1.13", ">=1.13.1"
   s.add_dependency "colorize", "~>0.8", ">=0.8.1"
