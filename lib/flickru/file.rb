@@ -90,9 +90,9 @@ class File
     elsif file_size < 1000000
       (file_size / 1000).to_s + "KB"
     elsif file_size < 1000000000
-      (file_size / 1000000).to_s + "MB"
+      (file_size / 100000).to_s + "MB"
     else
-      (file_size / 1000000000).to_s + "GB"
+      (file_size / 1000000000.0).round.to_s + "GB" # with float division
     end
   end
 
