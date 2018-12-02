@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    flickru (0.6.4)
+    flickru (0.6.5)
       bundler (~> 1.13, >= 1.13.1)
       colorize (~> 0.8, >= 0.8.1)
       escape (~> 0.0, >= 0.0.4)
