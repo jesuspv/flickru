@@ -2,7 +2,8 @@
 require 'find'
 # gems
 require 'escape'
-require 'exifr'
+require 'exifr/jpeg'
+require 'exifr/tiff'
 
 class File
 
