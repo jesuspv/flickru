@@ -85,14 +85,14 @@ class File
   end
 
   def File.human_readable_size file_size
-    if file_size < 1000
-      file_size.to_s + " bytes"
-    elsif file_size < 1000000
-      (file_size / 1000).to_s + "KB"
-    elsif file_size < 1000000000
-      (file_size / 100000).to_s + "MB"
+    if file_size < 1024 ** 1
+      (file_size / 1024 ** 0).to_s + " bytes"
+    elsif file_size < 1024 ** 2
+      (file_size / 1024 ** 1).to_s + "KB"
+    elsif file_size < 1024 ** 3
+      (file_size / 1024 ** 2).to_s + "MB"
     else
-      (file_size / 1000000000.0).round.to_s + "GB" # with float division
+      (file_size / 1024.0 ** 3).round.to_s + "GB" # with float division
     end
   end
 
