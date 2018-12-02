@@ -12,9 +12,9 @@ Gem::Specification.new do |s|
   s.homepage              = "http://github.com/jesuspv/flickru"
   s.summary               = %q{Command-line Flickr upload automator}
   s.description           = IO.read('README')
-  s.files                 = `git ls-files -- {bin,lib,share}/* README`.split("\n")
-  s.test_files            = `git ls-files -- {spec,var}/* \
-      | grep -v tc_accents | grep -v tc_whitespaces` \
+  s.files                 = `bash -c 'git ls-files -- {bin,lib,share}/* README'`.split("\n")
+  s.test_files            = `bash -c 'git ls-files -- {spec,var}/* \
+      | grep -v tc_accents | grep -v tc_whitespaces'` \
       .split("\n")
     # accents are escaped by git and not managed properly by rake
     # whitespaces are not properly managed by win32 gem install
